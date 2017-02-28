@@ -26,12 +26,13 @@ export default {
     'getItems'
   ]),
   mounted() {
-    const list = {
-      parentId: '0'
-    };
-    this.getItems({}).then(() => {
-      this.list = list;
-    });
+    // const list = {
+    //   parentId: '0'
+    // };
+    this.getItems({});
+    // this.getItems({}).then(() => {
+      // this.list = list;
+    // });
   }
 };
 </script>
