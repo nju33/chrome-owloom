@@ -1,6 +1,6 @@
 <template>
   <section class="container">
-    <Bookmark :list="list"/>
+    <Bookmark :listItems="listItems"/>
   </section>
 </template>
 
@@ -20,7 +20,8 @@ export default {
     };
   },
   computed: mapState([
-    'index'
+    'index',
+    'listItems'
   ]),
   methods: mapActions([
     'getItems'
@@ -29,7 +30,9 @@ export default {
     // const list = {
     //   parentId: '0'
     // };
-    this.getItems({});
+    console.log(99999);
+    debugger
+    this.getItems();
     // this.getItems({}).then(() => {
       // this.list = list;
     // });

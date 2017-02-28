@@ -1,20 +1,37 @@
 <template>
   <div>
     <Search/>
-    <nuxt/>
+    <Breadcrumb/>
+    <Bookmark :listItems="listItems"/>
+    <!-- <nuxt/> -->
     <!-- <my-footer/> -->
   </div>
 </template>
 
 <script>
-import Search from '~components/Search';
+import {mapState, mapActions} from 'vuex';
 import MyFooter from '~components/Footer';
+import Search from '~components/Search';
+import Breadcrumb from '~components/Breadcrumb';
 import bookmark from '~/libs/bookmark';
+import Bookmark from '~components/Bookmark';
 
 export default {
   components: {
     Search,
+    Breadcrumb,
+    Bookmark,
     MyFooter
+  },
+  computed: mapState([
+    'index',
+    'listItems'
+  ]),
+  methods: mapActions([
+    'getItems'
+  ]),
+  mounted() {
+    this.getItems();
   }
 };
 </script>

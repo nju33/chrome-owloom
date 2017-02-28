@@ -4,7 +4,7 @@ chrome.commands.onCommand.addListener(command => {
   }
 
   chrome.windows.create({
-    url: chrome.runtime.getURL('index.html'),
+    url: chrome.runtime.getURL('app/index.html'),
     width: 300,
     height: 485,
     type: 'popup',

@@ -6,7 +6,6 @@
   "default_locale": "ja",
   "permissions": [
     "bookmarks",
-    "webview",
     "tabs",
     "storage"
   ],
@@ -28,6 +27,14 @@
       },
       "description": "Open Lwloom window"
     }
+  },
+  "sandbox": {
+    "pages": [
+      "app/index.html",
+      "app/bookmark/index.html"
+    ],
+    "content_security_policy":
+      "sandbox allow-scripts allow-forms allow-popups allow-modals; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'sha256-lZoc+IinsSIcycLoedjCAXcQ31fKG6yKyUviz8jRQ7U='; child-src 'self';"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-lZoc+IinsSIcycLoedjCAXcQ31fKG6yKyUviz8jRQ7U='; object-src 'self'"
 }

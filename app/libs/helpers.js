@@ -1,3 +1,3 @@
 export function isChrome() {
-  return 'chrome' in window;
+  return Boolean('chrome' in window && chrome.bookmarks);
 }

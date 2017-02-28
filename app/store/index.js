@@ -1,32 +1,24 @@
 import Vuex from 'vuex';
 import bookmark from '~/libs/bookmark';
+import {debounce} from 'lodash';
 
 const store = new Vuex.Store({
   state: {
-    init: false,
     index: {},
     listItems: []
   },
   mutations: {
-    downPosition(state, parentId) {
-      let listItems = [];
-      for (const item of state.listItems) {
-        if (item.parentId === parentId) {
-          break;
-        }
-        listItems.push(item);
-      }
-      state.listItems = listItems;
+    downPosition(state, depth) {
+      state.listItems = state.listItems.slice(0, depth + 1);
     },
 
     setInitial(state, items) {
       state.index['0'] = {children: items}
       items.forEach(item => state.index[item.id] = item);
-      state.listItems.push(Object.assign({}, {
+      state.listItems.push({
         parentId: '0',
         children: items
-      }));
-      state.init = true;
+      });
     },
 
     setChildren(state, {current, items}) {
@@ -41,15 +33,16 @@ const store = new Vuex.Store({
     }
   },
   actions: {
-    downPosition({commit}, id) {
-      commit('downPosition', id);
-    },
+    downPosition: debounce(({commit}, depth) => {
+      commit('downPosition', depth);
+    }, 200),
 
-    getItems({commit}, item) {
+    getItems({commit}, item = {}) {
       return new Promise(resolve => {
-        console.log(item);
         bookmark.getItems(item.parentId)
           .then(items => {
+            console.log('.then');
+            console.log(items);
             if (typeof item.parentId === 'undefined') {
               commit('setInitial', items);
             } else {
@@ -58,6 +51,8 @@ const store = new Vuex.Store({
             resolve();
           })
           .catch(mockItems => {
+            console.log('.catch');
+            console.log(mockItems);
             if (typeof item.parentId === 'undefined') {
               commit('setInitial', mockItems);
             } else {

@@ -11,6 +11,8 @@ export default {
       text: ''
     };
   },
+  computed: {
+  },
   watch: {
     text(val, oldVal) {
       if (val && val !== oldVal) {

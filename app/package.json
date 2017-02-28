@@ -6,7 +6,9 @@
   "private": true,
   "dependencies": {
     "fuse.js": "^2.6.2",
-    "nuxt": "latest"
+    "lodash": "^4.17.4",
+    "nuxt": "latest",
+    "vue-octicon": "^2.1.0"
   },
   "scripts": {
     "dev": "nuxt",

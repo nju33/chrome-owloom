@@ -4,9 +4,9 @@
       <template v-for="(list, idx) in listItems">
         <List class="child-list"
               :key="list"
-              :class="`depth${list.depth}`"
-              :depth="idx + 1"
               :list="list"
+              :depth="idx"
+              :class="`depth${idx}`"/>
       </template>
     </transition-group>
     </div>
@@ -20,18 +20,23 @@ export default {
   components: {
     List
   },
-  props: ['parentId'],
-  data() {
-    return {};
+  props: {
+    listItems: {
+      type: Array,
+      default: () => []
+    }
   },
-  computed: {
-    ...mapState([
-      'index',
-      'listItems'
-    ])
-  },
-  mounted() {
-  }
+  // data() {
+  //   return {};
+  // },
+  // computed: {
+  //   ...mapState([
+  //     // 'index',
+  //     // 'listItems'
+  //   ])
+  // },
+  // mounted() {
+  // }
 }
 </script>
 
@@ -59,7 +64,7 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 1;
-  transition: all .4s cubic-bezier(0.86, 0, 0.07, 1);
+  transition: all .3s cubic-bezier(0.86, 0, 0.07, 1);
   outline: 100vw solid rgba(0,0,0,.5);
   background: #222;
 }
@@ -119,9 +124,13 @@ export default {
   z-index: 1.9;
 }
 
-.child-list.list-enter,
-.child-list.list-leave {
-  transform: translate3d(100%, 0, 0);
+.child-list.list-enter {
+  transform: translate3d(100vw, 0, 0);
+  outline: 2em solid rgba(0,0,0,0);
+}
+
+.child-list.list-leave-to {
+  transform: translate3d(100vw, 0, 0);
   outline: 2em solid rgba(0,0,0,0);
 }
 
