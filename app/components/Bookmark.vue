@@ -1,10 +1,11 @@
 <template>
   <div class="bookmark">
     <transition-group name="list" tag="section">
-      <template v-for="list in listItems">
+      <template v-for="(list, idx) in listItems">
         <List class="child-list"
               :key="list"
               :class="`depth${list.depth}`"
+              :depth="idx + 1"
               :list="list"
       </template>
     </transition-group>

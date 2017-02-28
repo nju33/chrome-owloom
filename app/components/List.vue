@@ -20,9 +20,9 @@ import {mapState, mapActions} from 'vuex';
 let tid = null;
 export default {
   props: {
-    list: {
-      type: Object,
-      default: {}
+    depth: {
+      type: Number,
+      required: true
     }
   },
   data() {
@@ -57,9 +57,11 @@ export default {
     }
   },
   mounted() {
-    this.$store.watch(s => s.init, () => {
-      this.items = this.$store.state.index[this.list.parentId].children;
-    });
+    if (this.depth === 1) {
+      this.$store.watch(s => s.init, () => {
+        this.items = this.$store.state.index[this.list.parentId].children;
+      });
+    }
   }
 }
 </script>
