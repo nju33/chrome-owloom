@@ -1,16 +1,30 @@
 <template>
-  <ol class="list">
+  <ol class="list"
+      :class="{[`depth${list.depth}`]: list.depth}">
     <li class="item" v-for="item in items">
-      <div v-text="item.title" @click="fetchChildren(item.id)"></div>
+      <!-- <div @click="getItems(item.id)"> -->
+      <div class="title" v-text="item.title"
+        @mouseover="downPosition(list)"
+      ></div>
+      <div class="button"
+        @mousemove="handleGetItems(item)"
+        @mouseleave="cancelGetItems">
+      </div>
     </li>
   </ol>
 </template>
 
 <script>
-import {mapState} from 'vuex';
+import {mapState, mapActions} from 'vuex';
 
+let tid = null;
 export default {
-  props: ['id'],
+  props: {
+    list: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
       items: []
@@ -21,12 +35,31 @@ export default {
       'index'
     ])
   },
-  watch: {
-    id(val) {
-      this.items = (this.index[val] || {children: []}).children;
+  methods: {
+    ...mapActions([
+      'downPosition',
+      'getItems'
+    ]),
+    handleGetItems(item) {
+      if (tid) {
+        clearTimeout(tid);
+      }
+      tid = setTimeout(() => {
+        this.$store.dispatch('getItems', item);
+        tid = null;
+      }, 500);
+    },
+    cancelGetItems() {
+      if (tid) {
+        clearTimeout(tid);
+        tid = null;
+      }
     }
   },
   mounted() {
+    this.$store.watch(s => s.init, () => {
+      this.items = this.$store.state.index[this.list.parentId].children;
+    });
   }
 }
 </script>
@@ -37,11 +70,29 @@ export default {
   list-style: none;
   padding: 0;
   margin: 0;
+  min-height: calc(100vh - 34px);
 }
 
+
 .item {
-  padding: .5em .75em;
   cursor: pointer;
+  display: flex;
+  border-bottom: 1px solid #181a1f;
+}
+
+.title {
+  flex: auto;
+  padding: .5em .75em;
+  box-sizing: border-box;
+}
+
+.button {
+  flex: auto;
+  padding: .5em .75em;
+  box-sizing: border-box;
+  max-width: 3em;
+  max-width: 3em;
+  background: #3a3f4b;
 }
 
 </style>

@@ -1,21 +1,22 @@
 <template>
   <section class="container">
-    <List :id="id"/>
+    <Bookmark :list="list"/>
   </section>
 </template>
 
 <script>
 import {mapState, mapActions} from 'vuex';
-import List from '~components/List';
+import Bookmark from '~components/Bookmark';
+// import List from '~components/List';
 import bookmark from '~/libs/bookmark';
 
 export default {
   components: {
-    List
+    Bookmark
   },
   data() {
     return {
-      id: null
+      list: {}
     };
   },
   computed: mapState([
@@ -25,8 +26,11 @@ export default {
     'getItems'
   ]),
   mounted() {
-    this.getItems().then(() => {
-      this.id = '0';
+    const list = {
+      parentId: '0'
+    };
+    this.getItems({}).then(() => {
+      this.list = list;
     });
   }
 };

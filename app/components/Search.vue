@@ -24,6 +24,8 @@ export default {
 <style scoped>
 
 .form {
+  position: relative;
+  z-index: 9;
   border-bottom: 1px solid #181a1f;
 }
 
