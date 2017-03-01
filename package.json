@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:bg": "webpack --config webpack.background.js -w"
+    "dev:bg": "webpack --config webpack.background.js -w",
+    "zip": "zip owloom.zip -r extension"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
