@@ -1,10 +1,15 @@
 <template>
-  <form class="form">
-    <input type="text" class="text" v-model.lazy="text"/>
+  <form class="form" v-on:submit.prevent="openSelectedItemURL">
+    <input ref="text" type="text" class="text" v-model="text">
+      <!-- v-on:keypress.prevent.enter="openSelectedItemURL"/> -->
   </form>
 </template>
 
 <script>
+import {mapState} from 'vuex';
+import {debounce} from 'lodash';
+import {isChrome} from '~/libs/helpers';
+
 export default {
   data() {
     return {
@@ -12,14 +17,46 @@ export default {
     };
   },
   computed: {
+    ...mapState([
+      'search'
+    ])
   },
-  watch: {
-    text(val, oldVal) {
-      if (val && val !== oldVal) {
-        console.log('search');
+  mounted() {
+    this.$refs.text.focus();
+  },
+  methods: {
+    openSelectedItemURL() {
+      const state = this.$store.state;
+      if (!state.search) {
+        return;
+      }
+
+      const item = state.searchedTree[state.searchedTree.length - 1].children[0]
+
+      if (!item.url) {
+        return;
+      }
+
+      if (isChrome()) {
+        chrome.runtime.sendMessage({
+          type: 'OPEN_URL',
+          url: item.url
+        }, () => {});
+      } else {
+        console.log(`[OPEN:isntChrome] ${item.url}`);
       }
     }
-  }
+  },
+  watch: {
+    text: debounce(function (val, oldVal) {
+      if (val && val !== oldVal) {
+        if (this.$store.state.flattenTree.length === 0) {
+          this.$store.dispatch('flatten');
+        }
+      }
+      this.$store.dispatch('search', val);
+    }, 200)
+  },
 }
 </script>
 

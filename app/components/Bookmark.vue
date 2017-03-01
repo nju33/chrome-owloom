@@ -1,11 +1,12 @@
 <template>
   <div class="bookmark">
     <transition-group name="list" tag="section">
-      <template v-for="(list, idx) in listItems">
+      <template v-for="(list, idx) in (search ? searchedTree : listItems)">
         <List class="child-list"
               :key="list"
               :list="list"
               :depth="idx"
+              :animation="(search ? searchedTree : listItems).length !== 1"
               :class="`depth${idx}`"/>
       </template>
     </transition-group>
@@ -27,20 +28,26 @@ export default {
     }
   },
   // data() {
-  //   return {};
+  //   return {
+  //   };
   // },
-  // computed: {
-  //   ...mapState([
-  //     // 'index',
-  //     // 'listItems'
-  //   ])
-  // },
+  computed: {
+    ...mapState([
+      'search',
+      'searchedTree'
+    ])
+  },
   // mounted() {
   // }
 }
 </script>
 
 <style scoped>
+
+.bookmark {
+  width: 100%;
+  position: relative;
+}
 
 .list {
   list-style: none;
@@ -64,9 +71,11 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 1;
-  transition: all .3s cubic-bezier(0.86, 0, 0.07, 1);
+  height: 100%;
+  transition: all .15s cubic-bezier(0.86, 0, 0.07, 1);
   outline: 100vw solid rgba(0,0,0,.5);
   background: #222;
+  overflow-y: auto;
 }
 
 .child-list.depth1 {

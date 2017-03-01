@@ -6,7 +6,6 @@
   "default_locale": "ja",
   "permissions": [
     "bookmarks",
-    "webview",
     "tabs",
     "storage"
   ],
@@ -28,6 +27,10 @@
       },
       "description": "Open Lwloom window"
     }
+  },
+  "browser_action": {
+    "default_icon": "icons/icon_48x48.png",
+    "default_title": "Owloom"
   },
   "content_security_policy": "script-src 'self' 'unsafe-eval' 'sha256-lZoc+IinsSIcycLoedjCAXcQ31fKG6yKyUviz8jRQ7U='; object-src 'self'"
 }

@@ -1,5 +1,39 @@
+const OPEN_URL = 'OPEN_URL';
+let currentWin = null;
+
 chrome.commands.onCommand.addListener(command => {
   if (command !== 'open-owloom') {
+    return;
+  }
+  createWindow();
+});
+
+
+chrome.browserAction.onClicked.addListener(() => {
+  createWindow();
+});
+
+chrome.windows.onRemoved.addListener(winId => {
+  if (currentWin !== null) {
+    currentWin = null;
+  }
+});
+
+chrome.runtime.onMessage.addListener(({type, url}, sender, sendRes) => {
+  if (type === OPEN_URL) {
+    chrome.tabs.create({url}, () => {
+      if (currentWin !== null) {
+        chrome.windows.remove(currentWin.id, () => currentWin = null);
+      }
+    });
+  }
+});
+
+function createWindow() {
+  if (currentWin !== null) {
+    chrome.windows.update(currentWin.id, {
+      focused: true
+    });
     return;
   }
 
@@ -9,5 +43,7 @@ chrome.commands.onCommand.addListener(command => {
     height: 485,
     type: 'popup',
     state: 'normal'
-  })
-});
+  }, win => {
+    currentWin = win;
+  });
+}

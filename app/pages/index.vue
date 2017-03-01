@@ -30,8 +30,6 @@ export default {
     // const list = {
     //   parentId: '0'
     // };
-    console.log(99999);
-    debugger
     this.getItems();
     // this.getItems({}).then(() => {
       // this.list = list;

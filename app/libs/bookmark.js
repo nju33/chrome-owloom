@@ -2,6 +2,16 @@ import {isChrome} from './helpers';
 
 class Bookmark {
   constructor() {
+    this.EMPTY = [
+      {
+        id: null,
+        index: null,
+        parentId: null,
+        url: null,
+        title: 'There is no content 😣'
+      }
+    ];
+
     this.mock = {
       id: 2,
       initial: [
@@ -10,26 +20,50 @@ class Bookmark {
           index: 0,
           parentId: '0',
           title: 'Bookmarks Bar',
-          children: []
+          children: [
+            {title: 'foo', parentId: '1', id:'10', children: []},
+            {title: 'bar', parentId: '1', id:'10', children: [
+              {title: 'bar-child', parentId: '1', id:'10', url:'bar-child'}
+            ]},
+            {title: 'baz', parentId: '1', id:'10', children: [
+              {title: 'baz-child', parentId: '1', id:'10', children: []}
+            ]},
+            {title: 'testtest', parentId: '1', id:'10', url: 'hoge'},
+          ]
         },
         {
           id: '2',
           index: 1,
           parentId: '0',
           title: 'Other Bookmarks',
-          children: []
+          children: [
+            {title: 'hoge', parentId: '1', id:'10', children: []},
+            {title: 'fuga', parentId: '1', id:'10', children: []},
+            {title: 'piyo', parentId: '1', id:'10', children: []}
+          ]
         }
       ],
-      generateChildren(parentId, length = 3) {
-        const items = Array(3).fill(null).map((item, index) => {
-          const id = String(this.id++)
-          return {
-            id,
-            index,
-            parentId,
-            title: `mock${id}`,
-            children: []
-          };
+      generateChildren(parentId, length = 5) {
+        const items = Array(length).fill(null).map((item, index) => {
+          const id = String(this.id++);
+          // 1 or 0
+          if (Math.round(Math.random())) {
+            return {
+              id,
+              index,
+              parentId,
+              title: `mock${id}`,
+              children: []
+            };
+          } else {
+            return {
+              id,
+              index,
+              parentId,
+              title: `mock${id}`,
+              url: 'http://foo.com'
+            };
+          }
         });
         return items;
       }
@@ -47,8 +81,8 @@ class Bookmark {
       }
 
       if (parentId) {
-        chrome.bookmarks.getChildren(parentId, chilren => {
-          resolve(children);
+        chrome.bookmarks.getSubTree(parentId, ([tree]) => {
+          resolve(tree.children);
         });
       } else {
         chrome.bookmarks.getTree(([tree]) => {

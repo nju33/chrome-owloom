@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Search/>
-    <Breadcrumb/>
-    <Bookmark :listItems="listItems"/>
+    <Search ref="search"/>
+    <Breadcrumb ref="breadcrumb"/>
+    <Bookmark ref="bookmark" :listItems="listItems"/>
     <!-- <nuxt/> -->
     <!-- <my-footer/> -->
   </div>
@@ -28,10 +28,18 @@ export default {
     'listItems'
   ]),
   methods: mapActions([
+    'getShortcutItems',
     'getItems'
   ]),
   mounted() {
-    this.getItems();
+    this.getShortcutItems()
+      .then(() => this.getItems());
+
+    const searchHeight = this.$refs.search.$el.clientHeight
+    const breadcrumbHeight = this.$refs.breadcrumb.$el.clientHeight;
+    const offset = searchHeight + breadcrumbHeight;
+    this.$refs.bookmark.$el.style.cssText =
+      `height: calc(100vh - ${offset}px)`;
   }
 };
 </script>
@@ -42,6 +50,8 @@ body {
   min-height: 100vh;
   background: #222;
   color: #9da5b4;
+  outline: 100vw solid #222;
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Noto Sans Japanese", "ヒラギノ角ゴ ProN W3", Hiragino Kaku Gothic ProN, Arial, Meiryo, sans-serif;
 }
 
 ol,li {

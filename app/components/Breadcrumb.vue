@@ -13,13 +13,23 @@ import {compact} from 'lodash';
 export default {
   computed: {
     schema() {
-      const titles = this.$store.state.listItems.map(item => {
-        if (!item.title) {
-          return null;
-        }
-        return item.title;
-      });
-      return compact(titles);
+      if (this.$store.state.search) {
+        const titles = this.$store.state.searchedTree.map(item => {
+          if (!item.title) {
+            return null;
+          }
+          return item.title;
+        });
+        return compact(titles);
+      } else {
+        const titles = this.$store.state.listItems.map(item => {
+          if (!item.title) {
+            return null;
+          }
+          return item.title;
+        });
+        return compact(titles);
+      }
     }
   },
   methods: mapActions([
