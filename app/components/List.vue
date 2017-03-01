@@ -154,6 +154,7 @@ export default {
 
 .title {
   margin-right: .3em;
+  word-break: break-all;
 }
 
 .link-external svg {
@@ -167,7 +168,7 @@ export default {
   padding: .5em .75em;
   box-sizing: border-box;
   max-width: 2em;
-  mix-width: 2em;
+  min-width: 2em;
   background: transparent;
   transition: all .3s cubic-bezier(0.86, 0, 0.07, 1);
   cursor: pointer;
