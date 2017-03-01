@@ -8,9 +8,18 @@ chrome.commands.onCommand.addListener(command => {
   createWindow();
 });
 
-
 chrome.browserAction.onClicked.addListener(() => {
   createWindow();
+});
+
+chrome.windows.onFocusChanged.addListener(newWinId => {
+  if (currentWin === null) {
+    return;
+  }
+
+  if (newWinId !== currentWin.id) {
+    chrome.windows.remove(currentWin.id, () => currentWin = null);
+  }
 });
 
 chrome.windows.onRemoved.addListener(winId => {
