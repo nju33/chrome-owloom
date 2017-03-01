@@ -13,8 +13,10 @@ It is recommended that you register and use your favorite shortcut below. I set 
   
 <details>
 <summary>how can I do?</summary>
-<img src="https://github.com/nju33/chrome-owloom/blob/master/media/keyboard-shortcuts.png?raw=true">
-<img src="https://github.com/nju33/chrome-owloom/blob/master/media/keyboard-shortcuts-modal.png?raw=true">
+<ol>
+<li>Click on the one under <a href="chrome://extensions/">chrome://extensions/</a><br/><img src="https://github.com/nju33/chrome-owloom/blob/master/media/keyboard-shortcuts.png?raw=true"></li>
+<li>Set `Open Lwloom window`<br/><img src="https://github.com/nju33/chrome-owloom/blob/master/media/keyboard-shortcuts-modal.png?raw=true"></li>
+<ol>
 </details>
 
 By the way, even if you do not set a shortcut, you can also open it by clicking on the icon to be added in the upper right
